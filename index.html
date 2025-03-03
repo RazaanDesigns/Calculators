@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Night Division Calculator</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .input-group { margin: 15px 0; }
+        label { display: inline-block; width: 120px; }
+        input { padding: 5px; }
+        button { padding: 8px 15px; margin-top: 10px; }
+        #result { margin-top: 20px; font-weight: bold; }
+        .footer { 
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .footer a {
+            color: #666;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .footer div {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>5th Sixth of the Night Calculator</h2>
+        
+        <div class="input-group">
+            <label for="maghrib">Maghrib Time:</label>
+            <input type="time" id="maghrib" required>
+        </div>
+
+        <div class="input-group">
+            <label for="fajr">Fajr Time:</label>
+            <input type="time" id="fajr" required>
+        </div>
+
+        <button onclick="calculateFifthSixth()">Calculate</button>
+        <div id="result"></div>
+    </div>
+
+    <div class="footer">
+        <div>
+            By <a href="https://t.me/Razaanspace" target="_blank">Razaanspace</a>
+        </div>
+        <div>
+Derived from the explanation of Zad al-Mustaqni', the Book of Prayer, 
+by Sheikh Muhammad bin Salih al-Uthaymin.
+مستفاد من شرح زاد المستقنع كتاب الصلاة للشيخ  محمد بن صالح العثيمين
+            
+<a href="https://alathar.net/home/esound/index.php?op=codevi&coid=97240">
+
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function calculateFifthSixth() {
+            // Get input values
+            const maghrib = document.getElementById('maghrib').value;
+            const fajr = document.getElementById('fajr').value;
+
+            // Convert times to minutes
+            const maghribMinutes = convertToMinutes(maghrib);
+            let fajrMinutes = convertToMinutes(fajr);
+
+            // Handle overnight duration
+            if (fajrMinutes < maghribMinutes) {
+                fajrMinutes += 1440; // Add 24 hours in minutes
+            }
+
+            // Calculate total night duration
+            const totalDuration = fajrMinutes - maghribMinutes;
+            const oneSixth = totalDuration / 6;
+
+            // Calculate 5th sixth
+            const startFifth = maghribMinutes + (4 * oneSixth);
+            const endFifth = maghribMinutes + (5 * oneSixth);
+
+            // Convert back to time format
+            const startTime = formatTime(startFifth % 1440);
+            const endTime = formatTime(endFifth % 1440);
+
+            // Display result
+            document.getElementById('result').innerHTML = 
+                `5th Sixth of the Night: ${startTime} to ${endTime}`;
+        }
+
+        function convertToMinutes(timeString) {
+            const [hours, minutes] = timeString.split(':').map(Number);
+            return hours * 60 + minutes;
+        }
+
+        function formatTime(totalMinutes) {
+            const hours = Math.floor(totalMinutes / 60);
+            const mins = totalMinutes % 60;
+            const period = hours >= 12 ? 'PM' : 'AM';
+            const displayHours = hours % 12 || 12;
+            return `${displayHours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')} ${period}`;
+        }
+    </script>
+</body>
+</html>
